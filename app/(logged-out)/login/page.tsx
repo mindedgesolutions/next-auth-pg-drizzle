@@ -56,6 +56,15 @@ export default function LoginPage() {
     router.push('/my-account');
   };
 
+  const goToResetPassword = () => {
+    const username = form.getValues('username');
+    const link = `/forgot-password${
+      username ? `?e=${encodeURIComponent(username)}` : ''
+    }`;
+
+    router.push(link);
+  };
+
   return (
     <main className="max-w-4xl mx-auto flex h-screen items-center justify-center">
       <Card className="w-[400px]">
@@ -130,12 +139,13 @@ export default function LoginPage() {
               </p>
               <p>
                 Forgot password?{' '}
-                <Link
-                  href={`/forgot-password`}
-                  className="text-green-500 hover:text-green-400 hover:underline"
+                <button
+                  type="button"
+                  onClick={goToResetPassword}
+                  className="cursor-pointer text-green-500 hover:text-green-400 hover:underline"
                 >
                   Click to reset
-                </Link>
+                </button>
               </p>
             </div>
           </form>

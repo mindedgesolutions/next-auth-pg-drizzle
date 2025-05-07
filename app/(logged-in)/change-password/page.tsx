@@ -21,6 +21,8 @@ import { confirmPasswordSchema } from '@/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { changePassword } from './actions';
+import { toast } from 'sonner';
 
 // --------------------------------------
 
@@ -46,7 +48,15 @@ export default function ChangePasswordPage() {
     },
   });
 
-  const handleSubmit = async (data: ChangePasswordSchema) => {};
+  const handleSubmit = async (data: ChangePasswordSchema) => {
+    const response = await changePassword(data);
+
+    if (response?.error) {
+      return toast.error(response.message ?? 'An error occurred');
+    }
+    toast.success('Password changed successfully!');
+    form.reset();
+  };
 
   return (
     <Card className="w-[400px]">
