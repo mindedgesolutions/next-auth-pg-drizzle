@@ -7,6 +7,7 @@ import { ForgotPasswordSchema } from './page';
 import { users } from '@/db/usersSchema';
 import { eq } from 'drizzle-orm';
 import { passwordResetToken } from '@/db/passwordResetTokenSchema';
+import { mailer } from '@/lib/email';
 
 export async function forgotPassword(formData: ForgotPasswordSchema) {
   const validate = z.object({
@@ -25,7 +26,7 @@ export async function forgotPassword(formData: ForgotPasswordSchema) {
   }
 
   const [user] = await db
-    .select({ id: users.id })
+    .select({ id: users.id, email: users.email })
     .from(users)
     .where(eq(users.email, formData.email));
 
@@ -47,4 +48,13 @@ export async function forgotPassword(formData: ForgotPasswordSchema) {
         tokenExpiry,
       },
     });
+
+  const link = `${process.env.NEXT_PUBLIC_BASE_URL}/update-password?e=${token}`;
+
+  await mailer.sendMail({
+    from: 'test@resend.dev',
+    subject: 'Password Reset Request',
+    to: user.email,
+    html: `Click the link to reset your password: ${link}`,
+  });
 }

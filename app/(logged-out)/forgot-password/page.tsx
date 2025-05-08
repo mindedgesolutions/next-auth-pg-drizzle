@@ -56,66 +56,80 @@ export default function ForgotPasswordPage() {
 
   return (
     <main className="max-w-4xl mx-auto flex h-screen items-center justify-center">
-      <Card className="w-[400px]">
-        <CardHeader>
-          <CardTitle className="text-2xl">Forgot Password</CardTitle>
-        </CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
-            <CardContent>
-              <fieldset
-                disabled={form.formState.isSubmitting}
-                className="grid w-full items-center gap-4"
-              >
-                <div className="flex flex-col space-y-1.5">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input {...field} placeholder="Email" type="text" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </fieldset>
-            </CardContent>
-            <CardFooter className="flex justify-between mt-4">
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={form.formState.isSubmitting}
-              >
-                Forgot Password
-              </Button>
-            </CardFooter>
-            <div className="mt-4 flex flex-col gap-2 text-center text-muted-foreground text-sm">
-              <p>
-                Forget it! Back to{' '}
-                <Link
-                  href={`/login`}
-                  className="text-green-500 hover:text-green-400 hover:underline"
+      {form.formState.isSubmitSuccessful ? (
+        <Card className="w-[400px]">
+          <CardHeader>
+            <CardTitle className="text-2xl">Email sent!</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">
+              If you have an account with us, we have sent you a password reset
+              link to your email address.
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="w-[400px]">
+          <CardHeader>
+            <CardTitle className="text-2xl">Forgot Password</CardTitle>
+          </CardHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
+              <CardContent>
+                <fieldset
+                  disabled={form.formState.isSubmitting}
+                  className="grid w-full items-center gap-4"
                 >
-                  Login
-                </Link>
-              </p>
-              <p>
-                Don't have an account?{' '}
-                <Link
-                  href={`/register`}
-                  className="text-green-500 hover:text-green-400 hover:underline"
+                  <div className="flex flex-col space-y-1.5">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="Email" type="text" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </fieldset>
+              </CardContent>
+              <CardFooter className="flex justify-between mt-4">
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={form.formState.isSubmitting}
                 >
-                  Register
-                </Link>
-              </p>
-            </div>
-          </form>
-        </Form>
-      </Card>
+                  Forgot Password
+                </Button>
+              </CardFooter>
+              <div className="mt-4 flex flex-col gap-2 text-center text-muted-foreground text-sm">
+                <p>
+                  Forget it! Back to{' '}
+                  <Link
+                    href={`/login`}
+                    className="text-green-500 hover:text-green-400 hover:underline"
+                  >
+                    Login
+                  </Link>
+                </p>
+                <p>
+                  Don't have an account?{' '}
+                  <Link
+                    href={`/register`}
+                    className="text-green-500 hover:text-green-400 hover:underline"
+                  >
+                    Register
+                  </Link>
+                </p>
+              </div>
+            </form>
+          </Form>
+        </Card>
+      )}
     </main>
   );
 }
